@@ -44,6 +44,10 @@ static if (staticBinding)
         Tvg_Result tvg_paint_get_bounds(const Tvg_Paint* paint, float* x, float* y, float* w, float* h, bool transformed);
         Tvg_Result tvg_paint_set_composite_method(Tvg_Paint* paint, Tvg_Paint* target, Tvg_Composite_Method method);
         Tvg_Result tvg_paint_get_composite_method(const Tvg_Paint* paint, const Tvg_Paint** target, Tvg_Composite_Method* method);
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            Tvg_Result tvg_paint_get_identifier(const Tvg_Paint* paint, Tvg_Identifier* identifier);
+        }
         //************************************************************************/
         //* Shape API                                                            */
         //************************************************************************/
@@ -92,6 +96,10 @@ static if (staticBinding)
         Tvg_Result tvg_gradient_get_spread(const Tvg_Gradient* grad, Tvg_Stroke_Fill* spread);
         Tvg_Result tvg_gradient_set_transform(Tvg_Gradient* grad, const Tvg_Matrix* m);
         Tvg_Result tvg_gradient_get_transform(const Tvg_Gradient* grad, Tvg_Matrix* m);
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            Tvg_Result tvg_gradient_get_identifier(const Tvg_Gradient* grad, Tvg_Identifier* identifier);
+        }
         Tvg_Gradient* tvg_gradient_duplicate(Tvg_Gradient* grad);
         Tvg_Result tvg_gradient_del(Tvg_Gradient* grad);
         //************************************************************************/
@@ -160,6 +168,10 @@ else
         alias ptvg_paint_get_bounds = Tvg_Result function(const Tvg_Paint* paint, float* x, float* y, float* w, float* h, bool transformed);
         alias ptvg_paint_set_composite_method = Tvg_Result function(Tvg_Paint* paint, Tvg_Paint* target, Tvg_Composite_Method method);
         alias ptvg_paint_get_composite_method = Tvg_Result function(const Tvg_Paint* paint, const Tvg_Paint** target, Tvg_Composite_Method* method);
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            alias ptvg_paint_get_identifier = Tvg_Result function(const Tvg_Paint* paint, Tvg_Identifier* identifier);
+        }
         //************************************************************************/
         //* Shape API                                                            */
         //************************************************************************/
@@ -208,6 +220,10 @@ else
         alias ptvg_gradient_get_spread = Tvg_Result function(const Tvg_Gradient* grad, Tvg_Stroke_Fill* spread);
         alias ptvg_gradient_set_transform = Tvg_Result function(Tvg_Gradient* grad, const Tvg_Matrix* m);
         alias ptvg_gradient_get_transform = Tvg_Result function(const Tvg_Gradient* grad, Tvg_Matrix* m);
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            alias ptvg_gradient_get_identifier = Tvg_Result function(const Tvg_Gradient* grad, Tvg_Identifier* identifier);
+        }
         alias ptvg_gradient_duplicate = Tvg_Gradient* function(Tvg_Gradient* grad);
         alias ptvg_gradient_del = Tvg_Result function(Tvg_Gradient* grad);
         //************************************************************************/
@@ -255,6 +271,10 @@ else
         ptvg_paint_translate tvg_paint_translate;
         ptvg_paint_set_transform tvg_paint_set_transform;
         ptvg_paint_get_transform tvg_paint_get_transform;
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            ptvg_paint_get_identifier tvg_paint_get_identifier;
+        }
         ptvg_paint_set_opacity tvg_paint_set_opacity;
         ptvg_paint_get_opacity tvg_paint_get_opacity;
         ptvg_paint_duplicate tvg_paint_duplicate;
@@ -305,6 +325,10 @@ else
         ptvg_gradient_get_spread tvg_gradient_get_spread;
         ptvg_gradient_set_transform tvg_gradient_set_transform;
         ptvg_gradient_get_transform tvg_gradient_get_transform;
+        static if (tvgSupport >= TVGSupport.v0_9)
+        {
+            ptvg_gradient_get_identifier tvg_gradient_get_identifier;
+        }
         ptvg_gradient_duplicate tvg_gradient_duplicate;
         ptvg_gradient_del tvg_gradient_del;
         ptvg_picture_new tvg_picture_new;

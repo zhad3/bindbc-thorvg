@@ -34,30 +34,10 @@ bool isThorVGLoaded()
 
 TVGSupport loadThorVG()
 {
-    version (Windows)
-    {
-        const(char)[][2] libNames = [
-            "thorvg.dll",
-            "libthorvg.dll",
-        ];
-    }
-    else version (OSX)
-    {
-        const(char)[][4] libNames = [
-            "thorvg.dylib",
-            "libthorvg.dylib",
-            "/usr/X11/lib/libthorvg.dylib",
-            "/opt/X11/lib/libthorvg.dylib",
-        ];
-    }
-    else version(Posix)
-    {
-        const(char)[][2] libNames = [
-            "libthorvg.so",
-            "libthorvg.so.0"
-        ];
-    }
-    else static assert(0, "bindbc-thorvg is not yet supported on this platform.");
+    // See https://github.com/BindBC/bindbc-loader/blob/master/source/bindbc/loader/codegen.d
+    enum libNamesCT = mixin(makeLibPaths(["thorvg"]));
+
+    string[libNamesCT.length] libNames = libNamesCT;
 
     TVGSupport ret;
     foreach (name; libNames)
@@ -169,7 +149,16 @@ TVGSupport loadThorVG(const(char)* libName)
     lib.bindSymbol(cast(void**)&tvg_saver_del, "tvg_saver_del");
 
     if (errorCount() != errCount) return TVGSupport.badLibrary;
-    else loadedVersion = TVGSupport.tvg07;
+    else loadedVersion = TVGSupport.v0_8;
+
+    static if (tvgSupport >= TVGSupport.v0_9)
+    {
+        lib.bindSymbol(cast(void**)&tvg_paint_get_identifier, "tvg_paint_get_identifier");
+        lib.bindSymbol(cast(void**)&tvg_gradient_get_identifier, "tvg_gradient_get_identifier");
+
+        if (errorCount() != errCount) return TVGSupport.badLibrary;
+        else loadedVersion = TVGSupport.v0_9;
+    }
 
     return loadedVersion;
 }

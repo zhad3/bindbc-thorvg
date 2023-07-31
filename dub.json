@@ -4,7 +4,7 @@
     ],
     "copyright": "Copyright © 2022, zhad3",
     "dependencies": {
-        "bindbc-loader": "~>1.0.1"
+        "bindbc-loader": "~>1.1.2"
     },
     "description": "Dynamic and static bindings to ThorVG CAPI, compatible with -betterC, @nogc, and nothrow.",
     "license": "MIT",
@@ -17,7 +17,7 @@
         {
             "name": "dynamic",
             "dependencies": {
-                "bindbc-loader": "~>1.0.1"
+                "bindbc-loader": "~>1.1.2"
             }
         },
         {
@@ -27,7 +27,7 @@
                 "dflags": "-betterC"
             },
             "dependencies": {
-                "bindbc-loader": "~>1.0.1"
+                "bindbc-loader": "~>1.1.2"
             }
         },
         {

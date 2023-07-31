@@ -1,5 +1,7 @@
 module bindbc.thorvg.bind.types;
 
+import bindbc.thorvg.config;
+
 struct Tvg_Canvas;
 struct Tvg_Paint;
 struct Tvg_Gradient;
@@ -19,12 +21,38 @@ enum Tvg_Result
     TVG_RESULT_NOT_SUPPORTED,          ///< The value returned in case of choosing unsupported options.
     TVG_RESULT_UNKNOWN                 ///< The value returned in all other cases.
 }
-enum Tvg_Composite_Method
+static if (tvgSupport < TVGSupport.v0_9)
 {
-    TVG_COMPOSITE_METHOD_NONE = 0,           ///< No composition is applied.
-    TVG_COMPOSITE_METHOD_CLIP_PATH,          ///< The intersection of the source and the target is determined and only the resulting pixels from the source are rendered.
-    TVG_COMPOSITE_METHOD_ALPHA_MASK,         ///< The pixels of the source and the target are alpha blended. As a result, only the part of the source, which intersects with the target is visible.
-    TVG_COMPOSITE_METHOD_INVERSE_ALPHA_MASK  ///< The pixels of the source and the complement to the target's pixels are alpha blended. As a result, only the part of the source which is not covered by the target is visible.
+    enum Tvg_Composite_Method
+    {
+        TVG_COMPOSITE_METHOD_NONE = 0,           ///< No composition is applied.
+        TVG_COMPOSITE_METHOD_CLIP_PATH,          ///< The intersection of the source and the target is determined and only the resulting pixels from the source are rendered.
+        TVG_COMPOSITE_METHOD_ALPHA_MASK,         ///< The pixels of the source and the target are alpha blended. As a result, only the part of the source, which intersects with the target is visible.
+        TVG_COMPOSITE_METHOD_INVERSE_ALPHA_MASK  ///< The pixels of the source and the complement to the target's pixels are alpha blended. As a result, only the part of the source which is not covered by the target is visible.
+    }
+}
+else
+{
+    enum Tvg_Composite_Method
+    {
+        TVG_COMPOSITE_METHOD_NONE = 0,           ///< No composition is applied.
+        TVG_COMPOSITE_METHOD_CLIP_PATH,          ///< The intersection of the source and the target is determined and only the resulting pixels from the source are rendered.
+        TVG_COMPOSITE_METHOD_ALPHA_MASK,         ///< The pixels of the source and the target are alpha blended. As a result, only the part of the source, which intersects with the target is visible.
+        TVG_COMPOSITE_METHOD_INVERSE_ALPHA_MASK, ///< The pixels of the source and the complement to the target's pixels are alpha blended. As a result, only the part of the source which is not covered by the target is visible.
+        TVG_COMPOSITE_METHOD_LUMA_MASK           ///< The source pixels are converted to grayscale (luma value) and alpha blended with the target. As a result, only the part of the source which intersects with the target is visible. \since 0.9
+    }
+}
+static if (tvgSupport >= TVGSupport.v0_9)
+{
+    enum Tvg_Identifier
+    {
+        TVG_IDENTIFIER_UNDEF = 0,   ///< Undefined type.
+        TVG_IDENTIFIER_SHAPE,       ///< A shape type paint.
+        TVG_IDENTIFIER_SCENE,       ///< A scene type paint.
+        TVG_IDENTIFIER_PICTURE,     ///< A picture type paint.
+        TVG_IDENTIFIER_LINEAR_GRAD, ///< A linear gradient type.
+        TVG_IDENTIFIER_RADIAL_GRAD  ///< A radial gradient type.
+    }
 }
 enum Tvg_Path_Command
 {
@@ -89,3 +117,4 @@ enum Tvg_Colorspace
     TVG_COLORSPACE_ABGR8888 = 0, ///< The 8-bit color channels are combined into 32-bit color in the order: alpha, blue, green, red.
     TVG_COLORSPACE_ARGB8888      ///< The 8-bit color channels are combined into 32-bit color in the order: alpha, red, green, blue.
 }
+

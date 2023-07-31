@@ -76,10 +76,19 @@ static if (staticBinding)
         Tvg_Result tvg_shape_get_stroke_cap(const Tvg_Paint* paint, Tvg_Stroke_Cap* cap);
         Tvg_Result tvg_shape_set_stroke_join(Tvg_Paint* paint, Tvg_Stroke_Join join);
         Tvg_Result tvg_shape_get_stroke_join(const Tvg_Paint* paint, Tvg_Stroke_Join* join);
+        static if (tvgSupport >= TVGSupport.v0_10)
+        {
+            Tvg_Result tvg_shape_set_stroke_miterlimit(Tvg_Paint* paint, float miterlimit);
+            Tvg_Result tvg_shape_get_stroke_miterlimit(const Tvg_Paint* paint, float* miterlimit);
+        }
         Tvg_Result tvg_shape_set_fill_color(Tvg_Paint* paint, ubyte r, ubyte g, ubyte b, ubyte a);
         Tvg_Result tvg_shape_get_fill_color(const Tvg_Paint* paint, ubyte* r, ubyte* g, ubyte* b, ubyte* a);
         Tvg_Result tvg_shape_set_fill_rule(Tvg_Paint* paint, Tvg_Fill_Rule rule);
         Tvg_Result tvg_shape_get_fill_rule(const Tvg_Paint* paint, Tvg_Fill_Rule* rule);
+        static if (tvgSupport >= TVGSupport.v0_10)
+        {
+            Tvg_Result tvg_shape_set_paint_order(const Tvg_Paint* paint, bool strokeFirst);
+        }
         Tvg_Result tvg_shape_set_linear_gradient(Tvg_Paint* paint, Tvg_Gradient* grad);
         Tvg_Result tvg_shape_set_radial_gradient(Tvg_Paint* paint, Tvg_Gradient* grad);
         Tvg_Result tvg_shape_get_gradient(const Tvg_Paint* paint, Tvg_Gradient** grad);
@@ -111,7 +120,10 @@ static if (staticBinding)
         Tvg_Result tvg_picture_load_data(Tvg_Paint* paint, const char *data, uint size, const char *mimetype, bool copy);
         Tvg_Result tvg_picture_set_size(Tvg_Paint* paint, float w, float h);
         Tvg_Result tvg_picture_get_size(const Tvg_Paint* paint, float* w, float* h);
-        Tvg_Result tvg_picture_get_viewbox(const Tvg_Paint* paint, float* x, float* y, float* w, float* h);
+        static if (tvgSupport < TVGSupport.v0_10)
+        {
+            Tvg_Result tvg_picture_get_viewbox(const Tvg_Paint* paint, float* x, float* y, float* w, float* h);
+        }
 
         Tvg_Paint* tvg_scene_new();
         Tvg_Result tvg_scene_reserve(Tvg_Paint* scene, uint size);
@@ -200,10 +212,19 @@ else
         alias ptvg_shape_get_stroke_cap = Tvg_Result function(const Tvg_Paint* paint, Tvg_Stroke_Cap* cap);
         alias ptvg_shape_set_stroke_join = Tvg_Result function(Tvg_Paint* paint, Tvg_Stroke_Join join);
         alias ptvg_shape_get_stroke_join = Tvg_Result function(const Tvg_Paint* paint, Tvg_Stroke_Join* join);
+        static if (tvgSupport >= TVGSupport.v0_10)
+        {
+            alias ptvg_shape_set_stroke_miterlimit = Tvg_Result function(Tvg_Paint* paint, float miterlimit);
+            alias ptvg_shape_get_stroke_miterlimit = Tvg_Result function(const Tvg_Paint* paint, float* miterlimit);
+        }
         alias ptvg_shape_set_fill_color = Tvg_Result function(Tvg_Paint* paint, ubyte r, ubyte g, ubyte b, ubyte a);
         alias ptvg_shape_get_fill_color = Tvg_Result function(const Tvg_Paint* paint, ubyte* r, ubyte* g, ubyte* b, ubyte* a);
         alias ptvg_shape_set_fill_rule = Tvg_Result function(Tvg_Paint* paint, Tvg_Fill_Rule rule);
         alias ptvg_shape_get_fill_rule = Tvg_Result function(const Tvg_Paint* paint, Tvg_Fill_Rule* rule);
+        static if (tvgSupport >= TVGSupport.v0_10)
+        {
+            alias ptvg_shape_set_paint_order = TvgResult function(Tvg_Paint* paint, bool strokeFirst);
+        }
         alias ptvg_shape_set_linear_gradient = Tvg_Result function(Tvg_Paint* paint, Tvg_Gradient* grad);
         alias ptvg_shape_set_radial_gradient = Tvg_Result function(Tvg_Paint* paint, Tvg_Gradient* grad);
         alias ptvg_shape_get_gradient = Tvg_Result function(const Tvg_Paint* paint, Tvg_Gradient** grad);
@@ -235,7 +256,10 @@ else
         alias ptvg_picture_load_data = Tvg_Result function(Tvg_Paint* paint, const char *data, uint size, const char *mimetype, bool copy);
         alias ptvg_picture_set_size = Tvg_Result function(Tvg_Paint* paint, float w, float h);
         alias ptvg_picture_get_size = Tvg_Result function(const Tvg_Paint* paint, float* w, float* h);
-        alias ptvg_picture_get_viewbox = Tvg_Result function(const Tvg_Paint* paint, float* x, float* y, float* w, float* h);
+        static if (tvgSupport < TVGSupport.v0_10)
+        {
+            alias ptvg_picture_get_viewbox = Tvg_Result function(const Tvg_Paint* paint, float* x, float* y, float* w, float* h);
+        }
 
         alias ptvg_scene_new = Tvg_Paint* function();
         alias ptvg_scene_reserve = Tvg_Result function(Tvg_Paint* scene, uint size);

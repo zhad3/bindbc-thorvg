@@ -138,7 +138,6 @@ TVGSupport loadThorVG(const(char)* libName)
     lib.bindSymbol(cast(void**)&tvg_picture_load_data, "tvg_picture_load_data");
     lib.bindSymbol(cast(void**)&tvg_picture_set_size, "tvg_picture_set_size");
     lib.bindSymbol(cast(void**)&tvg_picture_get_size, "tvg_picture_get_size");
-    lib.bindSymbol(cast(void**)&tvg_picture_get_viewbox, "tvg_picture_get_viewbox");
     lib.bindSymbol(cast(void**)&tvg_scene_new, "tvg_scene_new");
     lib.bindSymbol(cast(void**)&tvg_scene_reserve, "tvg_scene_reserve");
     lib.bindSymbol(cast(void**)&tvg_scene_push, "tvg_scene_push");
@@ -147,6 +146,11 @@ TVGSupport loadThorVG(const(char)* libName)
     lib.bindSymbol(cast(void**)&tvg_saver_save, "tvg_saver_save");
     lib.bindSymbol(cast(void**)&tvg_saver_sync, "tvg_saver_sync");
     lib.bindSymbol(cast(void**)&tvg_saver_del, "tvg_saver_del");
+
+    static if (tvgSupport < TVGSupport.v0_10)
+    {
+        lib.bindSymbol(cast(void**)&tvg_picture_get_viewbox, "tvg_picture_get_viewbox");
+    }
 
     if (errorCount() != errCount) return TVGSupport.badLibrary;
     else loadedVersion = TVGSupport.v0_8;
@@ -158,6 +162,16 @@ TVGSupport loadThorVG(const(char)* libName)
 
         if (errorCount() != errCount) return TVGSupport.badLibrary;
         else loadedVersion = TVGSupport.v0_9;
+    }
+
+    static if (tvgSupport >= TVGSupport.v0_10)
+    {
+        lib.bindSymbol(cast(void**)&tvg_shape_set_stroke_miterlimit, "tvg_shape_set_stroke_miterlimit");
+        lib.bindSymbol(cast(void**)&tvg_shape_get_stroke_miterlimit, "tvg_shape_get_stroke_miterlimit");
+        lib.bindSymbol(cast(void**)&tvg_shape_set_paint_order, "tvg_shape_set_paint_order");
+
+        if (errorCount() != errCount) return TVGSupport.badLibrary;
+        else loadedVersion = TVGSupport.v0_10;
     }
 
     return loadedVersion;

@@ -23,9 +23,9 @@
         {
             "name": "dynamicBC",
             "subConfigurations": {
-                "bindbc-loader": "yesBC",
-                "dflags": "-betterC"
+                "bindbc-loader": "yesBC"
             },
+            "buildOptions": ["betterC"],
             "dependencies": {
                 "bindbc-loader": "~>1.1.2"
             }
@@ -36,7 +36,7 @@
         },
         {
             "name": "staticBC",
-            "dflags": ["-betterC"],
+            "buildOptions": ["betterC"],
             "versions": ["BindTVG_Static"]
         }
     ]

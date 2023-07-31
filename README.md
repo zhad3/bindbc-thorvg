@@ -62,22 +62,22 @@ to the executable, only on Windows.
 */
 // version(Windows) loadThorVG("libs/thorvg.dll")
 ```
-By default, the `bindbc-thorvg` binding is configured to load ThorVG 0.7. This behavior can be overridden via the `-version` compiler switch or the `versions` DUB directive with the desired ThorVG version number. It is recommended that you always select the minimum version you require _and no higher_.
+By default, the `bindbc-thorvg` binding is configured to load ThorVG 0.8. This behavior can be overridden via the `-version` compiler switch or the `versions` DUB directive with the desired ThorVG version number. It is recommended that you always select the minimum version you require _and no higher_.
 
-In this example, the ThorVG dynamic binding is compiled to support ThorVG 0.7:
+In this example, the ThorVG dynamic binding is compiled to support ThorVG 0.10:
 
 __dub.json__
 ```
 "dependencies": {
     "bindbc-thorvg": "~>1.0.0"
 },
-"versions": ["TVG_0_9"]
+"versions": ["TVG_0_10"]
 ```
 
 __dub.sdl__
 ```
 dependency "bindbc-thorvg" version="~>1.0.0"
-versions "TVG_0_9"
+versions "TVG_0_10"
 ```
 
 With this example configuration, `tvgSupport == TVGSupport.v0_9` after a successful load. If ThorVG 0.9 or later is installed on the user's system, `loadThorVG` will return `TVGSupport.v0_9`. If ThorVG 0.8 is installed, `loadThorVG` will return `TVGSupport.badLibrary`. In this scenario, calling `loadedThorVGVersion()` will return a `TVGSupport` member indicating which version of ThorVG, if any, actually loaded. If a lower version was loaded, it's still possible to call functions from that version of ThorVG, but any calls to functions from higher versions will result in a null pointer access. For this reason, it's recommended to always specify your required version of the ThorVG library at compile time and abort when you receive a `TVGSupport.badLibrary` return value from `loadThorVG`.
@@ -96,6 +96,7 @@ Following are the supported versions of ThorVG, the corresponding version IDs to
 |-------------------------|------------------|---------------------|
 |ThorVG 0.8.x and earlier | Default          | `TVGSupport.v0_8`   |
 |ThorVG 0.9.x             |                  | `TVGSupport.v0_9`   |
+|ThorVG 0.10.x            |                  | `TVGSupport.v0_10`  |
 
 ## The static binding
 The static binding has a link-time dependency on either the shared or the static ThorVG library. On Windows, you can link with the static library or, to use the shared library (`thorvg.dll`), you can link with the import library. On other systems, you can link with either the static library or directly with the shared library. This requires the ThorVG development package be installed on your system at compile time, either by compiling the ThorVG source yourself, downloading the ThorVG precompiled binaries for Windows, or installing via a system package manager. [See the ThorVG releases page](https://github.com/Samsung/thorvg/releases) or the [Github Actions Workflows](https://github.com/Samsung/thorvg/actions) for details.
